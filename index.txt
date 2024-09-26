@@ -3,93 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js Import Map Example</title>
+    <title>Flutter Communication Test</title>
+    <script src="test_comm.js"></script>
     <style>
-        body {
-            margin: 0;
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Left-side container (Decal List + Messages) */
-        #left-container {
-            width: 25%;
-            display: flex;
-            flex-direction: column;
-            background-color: #f0f0f0;
-        }
-
-        /* Decal list container takes half of the left side */
-        #decal-list-container {
-            flex: 1;
-            overflow-y: auto;
+        #message {
+            margin-top: 20px;
             padding: 10px;
-            background-color: #e0e0e0;
-        }
-
-        /* Message container takes half of the left side */
-        #message-container {
-            flex: 1;
-            padding: 10px;
-            background-color: #cccccc;
-            overflow-y: auto;
+            border: 1px solid #ccc;
             white-space: pre-line;
+            background-color: #f9f9f9;
             font-family: Arial, sans-serif;
             font-size: 14px;
-        }
-
-        /* Right-side container (3D model) */
-        #container {
-            flex-grow: 1;
-            background-color: #ffffff;
-        }
-
-        /* General styles */
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            padding: 5px;
-            cursor: pointer;
-            border-bottom: 1px solid #ccc;
-        }
-
-        li:hover {
-            background-color: #ddd;
+            max-height: 200px;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
-    <!-- Left-side container (Decal List + Messages) -->
-    <div id="left-container">
-        <!-- Decal List Container -->
-        <div id="decal-list-container">
-            <ul id="decal-list"></ul>
-        </div>
-
-        <!-- Message Display Container -->
-        <div id="message-container">
-            <!-- This will display messages sent by JavaScript -->
-        </div>
-    </div>
-
-    <!-- Right-side container (3D model) -->
-    <div id="container"></div>
-
-    <!-- Import Map for Three.js -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.150.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.150.0/examples/jsm/"
-        }
-    }
-    </script>
-
-    <!-- Your App Script -->
-    <script type="module" src="./functions.js"></script> <!-- Load shared functions first if needed -->
-    <script type="module" src="./ztest.js"></script> <!-- Load main script -->
+    <h1>Flutter WebViewWidget Communication Test</h1>
+    <button onclick="sendMessageToFlutter()">Send Message to Flutter</button>
+    <div id="message">Status Messages:\n</div>
 </body>
 </html>
