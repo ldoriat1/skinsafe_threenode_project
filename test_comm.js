@@ -1,4 +1,4 @@
-// Utility function to display messages in the HTML
+// Simple function to display messages in the HTML
 function displayMessage(message) {
     const messageElement = document.getElementById('message');
     messageElement.innerText += message + '\n'; // Append the new message
