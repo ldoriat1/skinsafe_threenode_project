@@ -197,7 +197,6 @@ function shoot() {
     scene.add(decalMesh);
 
     // Add the decal to the list in the UI
-    sendAllDecalsToFlutter();
     addDecalToList(decal);
 }
 
@@ -322,20 +321,16 @@ function animate() {
     stats.update();
 }
 
-
-// Function to map new decals received from the Flutter app to the 3D model
 function mapDecalsToModel(decalsData) {
     const decalsFromFlutter = JSON.parse(decalsData);
 
     decalsFromFlutter.forEach(decal => {
-        console.log('Adding decal from Flutter', decal);
-
         const position = new THREE.Vector3(decal.position.x, decal.position.y, decal.position.z);
         const orientation = new THREE.Euler(decal.orientation.x, decal.orientation.y, decal.orientation.z);
         const size = new THREE.Vector3(decal.size.width, decal.size.height, decal.size.depth);
 
         const material = new THREE.MeshPhongMaterial({
-            color: 0x000000, // Black color for all new decals from the app
+            color: 0x000000, // All decals from the app are black
             specular: 0x444444,
             shininess: 30,
             transparent: true,
@@ -346,24 +341,22 @@ function mapDecalsToModel(decalsData) {
             wireframe: false
         });
 
-        // Create the decal mesh using DecalGeometry
         const decalMesh = new THREE.Mesh(new THREE.DecalGeometry(mesh, position, orientation, size), material);
         scene.add(decalMesh);
 
-        // Store the newly added decal in the existing decals array
+        // Store the newly added decal in the global array
         decals.push({
             mesh: decalMesh,
             position: position,
             orientation: orientation,
             size: size,
-            color: 0x000000 // Black color
+            color: 0x000000 // Decal color set to black
         });
     });
 }
 
-// Function to send all decals currently on the 3D model back to Flutter
 function sendAllDecalsToFlutter() {
-    const decalsData = existingDecals.map(decal => ({
+    const decalsData = decals.map(decal => ({
         position: {
             x: decal.mesh.position.x,
             y: decal.mesh.position.y,
@@ -382,6 +375,6 @@ function sendAllDecalsToFlutter() {
         color: 0x000000 // Black color for all decals
     }));
 
-    // Send the decals data to Flutter
+    // Send decals data to Flutter via DecalChannel
     DecalChannel.postMessage(JSON.stringify(decalsData));
 }
