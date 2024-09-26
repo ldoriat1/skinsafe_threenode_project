@@ -197,6 +197,7 @@ function shoot() {
     scene.add(decalMesh);
 
     // Add the decal to the list in the UI
+    sendAllDecalsToFlutter();
     addDecalToList(decal);
 }
 
@@ -223,7 +224,6 @@ function addDecalToList(decal) {
     });
 
     decalList.appendChild(listItem);
-    sendAllDecalsToFlutter();
 }
 
 let selectedDecal = null; // Track the currently selected decal
