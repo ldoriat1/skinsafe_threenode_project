@@ -322,10 +322,10 @@ function animate() {
 }
 
 // Function to display messages in the HTML
-// function displayMessage(message) {
-//     const messageElement = document.getElementById('message');
-//     messageElement.innerText += message + '\n'; // Append the new message
-// }
+function displayMessage(message) {
+    const messageElement = document.getElementById('message');
+    messageElement.innerText += message + '\n'; // Append the new message
+}
 
 // Function that JavaScript will listen for from Flutter to receive decals
 function receiveMessageFromFlutter(message) {
