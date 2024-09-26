@@ -327,8 +327,6 @@ function displayMessage(message) {
     messageElement.innerText += message + '\n'; // Append the new message
 }
 
-const decalstest = [];
-
 // Function that JavaScript will listen for from Flutter
 function receiveMessageFromFlutter(message) {
     console.log('Received message from Flutter:', message);
@@ -359,7 +357,7 @@ function receiveMessageFromFlutter(message) {
             scene.add(decalMesh);
 
             // Store the newly added decal in the global array
-            decalstest.push({
+            decals.push({
                 mesh: decalMesh,
                 position: position,
                 orientation: orientation,
