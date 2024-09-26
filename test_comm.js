@@ -55,8 +55,27 @@ function receiveMessageFromFlutter(message) {
 
 // Sends a message to Flutter via FlutterChannel
 function sendMessageToFlutter() {
+    const decalsData = decals.map(decal => ({
+        position: {
+            x: decal.mesh.position.x,
+            y: decal.mesh.position.y,
+            z: decal.mesh.position.z
+        },
+        orientation: {
+            x: decal.mesh.rotation.x,
+            y: decal.mesh.rotation.y,
+            z: decal.mesh.rotation.z
+        },
+        size: {
+            width: decal.mesh.scale.x,
+            height: decal.mesh.scale.y,
+            depth: decal.mesh.scale.z
+        },
+        color: 0x000000 // Black color for all decals
+    }));
+
     if (typeof FlutterChannel !== 'undefined') {
-        FlutterChannel.postMessage('Hello from JavaScript!');
+         FlutterChannel.postMessage(JSON.stringify(decalsData));
         displayMessage('Message sent to Flutter: Hello from JavaScript!');
     } else {
         displayMessage('Error: FlutterChannel is not defined.');
