@@ -322,55 +322,66 @@ function animate() {
     stats.update();
 }
 
-// Function to map decals to the 3D model
+
+// Function to map new decals received from the Flutter app to the 3D model
 function mapDecalsToModel(decalsData) {
-    console.log("mapDecalsToModel called with data: ", decalsData); // Debugging log
-    // Remove any existing decals before mapping new ones
-    decals.forEach(d => scene.remove(d.mesh));
-    decals = []; // Clear the array
+    const decalsFromFlutter = JSON.parse(decalsData);
 
-    // Add each decal to the 3D model
-    decalsData.forEach(decalData => {
-        const position = new THREE.Vector3(decalData.position.x, decalData.position.y, decalData.position.z);
-        const orientation = new THREE.Euler(decalData.orientation.x, decalData.orientation.y, decalData.orientation.z);
-        const size = new THREE.Vector3(decalData.size.width, decalData.size.height, decalData.size.depth);
-        const color = decalData.color;
+    decalsFromFlutter.forEach(decal => {
+        console.log('Adding decal from Flutter', decal);
 
-        const material = decalMaterial.clone();
-        material.color.setHex(color);
+        const position = new THREE.Vector3(decal.position.x, decal.position.y, decal.position.z);
+        const orientation = new THREE.Euler(decal.orientation.x, decal.orientation.y, decal.orientation.z);
+        const size = new THREE.Vector3(decal.size.width, decal.size.height, decal.size.depth);
 
-        // Create the decal mesh
-        const decalMesh = new THREE.Mesh(new DecalGeometry(mesh, position, orientation, size), material);
-        decalMesh.renderOrder = decals.length; // Assign render order
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x000000, // Black color for all new decals from the app
+            specular: 0x444444,
+            shininess: 30,
+            transparent: true,
+            depthTest: true,
+            depthWrite: false,
+            polygonOffset: true,
+            polygonOffsetFactor: -4,
+            wireframe: false
+        });
 
-        // Add decal to the scene
+        // Create the decal mesh using DecalGeometry
+        const decalMesh = new THREE.Mesh(new THREE.DecalGeometry(mesh, position, orientation, size), material);
         scene.add(decalMesh);
-        decals.push({ mesh: decalMesh, position, orientation, size, color });
+
+        // Store the newly added decal in the existing decals array
+        decals.push({
+            mesh: decalMesh,
+            position: position,
+            orientation: orientation,
+            size: size,
+            color: 0x000000 // Black color
+        });
     });
 }
 
-// Function to send all decals' data to Flutter
+// Function to send all decals currently on the 3D model back to Flutter
 function sendAllDecalsToFlutter() {
-    console.log("sendAllDecalsToFlutter called"); // Debugging log
-    // Collect all decals' position, orientation, size, and color data
-    const decalsData = decals.map(d => ({
+    const decalsData = existingDecals.map(decal => ({
         position: {
-            x: d.mesh.position.x,
-            y: d.mesh.position.y,
-            z: d.mesh.position.z
+            x: decal.mesh.position.x,
+            y: decal.mesh.position.y,
+            z: decal.mesh.position.z
         },
         orientation: {
-            x: d.mesh.rotation.x,
-            y: d.mesh.rotation.y,
-            z: d.mesh.rotation.z
+            x: decal.mesh.rotation.x,
+            y: decal.mesh.rotation.y,
+            z: decal.mesh.rotation.z
         },
         size: {
-            width: d.mesh.scale.x,
-            height: d.mesh.scale.y,
-            depth: d.mesh.scale.z
+            width: decal.mesh.scale.x,
+            height: decal.mesh.scale.y,
+            depth: decal.mesh.scale.z
         },
-        color: d.mesh.material.color.getHex()
+        color: 0x000000 // Black color for all decals
     }));
-    // Send the decals data to Flutter through the DecalChannel
+
+    // Send the decals data to Flutter
     DecalChannel.postMessage(JSON.stringify(decalsData));
 }
