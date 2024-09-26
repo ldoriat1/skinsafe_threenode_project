@@ -355,6 +355,7 @@ function mapDecalsToModel(decalsData) {
     });
 }
 
+// Ensure this function is declared in the global scope
 function sendAllDecalsToFlutter() {
     const decalsData = decals.map(decal => ({
         position: {
@@ -375,6 +376,10 @@ function sendAllDecalsToFlutter() {
         color: 0x000000 // Black color for all decals
     }));
 
-    // Send decals data to Flutter via DecalChannel
-    DecalChannel.postMessage(JSON.stringify(decalsData));
+    // Ensure that DecalChannel exists and send decals data to Flutter
+    if (typeof DecalChannel !== 'undefined') {
+        DecalChannel.postMessage(JSON.stringify(decalsData));
+    } else {
+        console.error('DecalChannel is not defined.');
+    }
 }
