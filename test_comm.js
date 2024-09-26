@@ -4,7 +4,7 @@ function displayMessage(message) {
     messageElement.innerText += message + '\n'; // Append the new message
 }
 
-let decalstest;
+const decalstest = [];
 
 // Function that JavaScript will listen for from Flutter
 function receiveMessageFromFlutter(message) {
