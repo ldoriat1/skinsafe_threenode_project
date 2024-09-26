@@ -70,7 +70,7 @@
         </div>
 
         <!-- Message Display Container -->
-        <div id="message-container" id="message">
+        <div id="message-container">
             <!-- This will display messages sent by JavaScript -->
         </div>
     </div>
@@ -89,7 +89,7 @@
     </script>
 
     <!-- Your App Script -->
-    <script type="module" src="./ztest.js"></script>
-    <script type="module" src="./functions.js"></script>
+    <script type="module" src="./functions.js"></script> <!-- Load shared functions first if needed -->
+    <script type="module" src="./ztest.js"></script> <!-- Load main script -->
 </body>
 </html>
