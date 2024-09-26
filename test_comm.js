@@ -13,6 +13,7 @@ function receiveMessageFromFlutter(message) {
     try {
         // Parse the decals data received from Flutter
         const decalsFromFlutter = JSON.parse(message);
+        displayMessage('format: ' + decalsFromFlutter);
 
         decalsFromFlutter.forEach(decal => {
             const position = new THREE.Vector3(decal.position.x, decal.position.y, decal.position.z);
